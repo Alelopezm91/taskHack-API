@@ -25,7 +25,14 @@ const taskSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Jardinería", "Mudanza", "Bricolage"],
+      enum: [
+        "Gardening",
+        "Moving",
+        "Mounting",
+        "Cleaning",
+        "Delivery",
+        "Cooking",
+      ],
       required: true,
     },
   },

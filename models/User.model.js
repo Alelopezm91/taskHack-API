@@ -17,9 +17,20 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       match: [EMAIL_PATTERN, "Email has to be valid"],
     },
+    userName: {
+      type: String,
+      unique: true,
+      required: [true, "User Name has to be unique"],
+      trim: true,
+      lowercase: true,
+    },
     name: {
       type: String,
       required: [true, "Name is required"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last Name is required"],
     },
     password: {
       type: String,
@@ -42,8 +53,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    image:{
-      type:String
+    image: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/djmyevjp8/image/upload/v1651682445/TaskHack/istockphoto-1305665241-170667a_xtcdar.jpg",
     },
   },
   {

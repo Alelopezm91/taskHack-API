@@ -32,7 +32,7 @@ module.exports.list = (req, res, next) => {
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  User.findById(req.currentUser).populate('tasks')
+  User.findById(req.currentUser).populate('tasks').populate({path: "hired",populate:{path:"targetUser"}})
     .then((user) => {
       if (!user) {
         // not found

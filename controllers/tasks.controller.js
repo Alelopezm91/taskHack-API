@@ -9,7 +9,19 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.list = (req, res, next) => {
-  Task.find()
+  let criteria = {}
+  if (req.params.category) {
+    let category = req.params.category;
+    category = category.charAt(0).toUpperCase() + category.slice(1);
+    criteria.category = category;
+  }
+    if (req.params.city) {
+      let city = req.params.city;
+      criteria.city = city;
+    }
+
+
+  Task.find(criteria)
     .populate("user")
     .then((tasks) => {
       if (!tasks) {

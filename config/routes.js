@@ -22,8 +22,7 @@ router.post("/login", authMiddleware.isNotAuthenticated, authController.login);
 /* Users */
 
 router.post("/users", upload.single("image"), authController.create);
-router.get("/users", authMiddleware.isAuthenticated, usersController.list);
-router.post("/users", authController.create);
+router.get("/users", usersController.list);
 router.get(
   "/users/me",
   authMiddleware.isAuthenticated,
@@ -42,5 +41,7 @@ router.get("/tasks", tasksController.list)
 router.get("/task/:id", tasksController.detail);
 router.patch("/task/:id", tasksController.update);
 router.delete("/task/:id", tasksController.delete);
+router.get("/tasks/category/:category", tasksController.list)
+router.get("/tasks/:city", tasksController.list);
 
 module.exports = router;
