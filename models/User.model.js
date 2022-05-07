@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
     postalCode: {
       type: Number,
       required: [true, "Postal code is required"],
-      match: [POSTAL_CODE, "Enter a valid Postal Code"],
+      match: [POSTAL_CODE, "Enter a valid Zip Code"],
     },
     street: {
       type: String,

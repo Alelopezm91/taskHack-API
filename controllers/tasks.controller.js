@@ -1,5 +1,7 @@
 const Task = require("../models/Task.model");
 const User = require("../models/User.model.js");
+const Hired = require("../models/Hired.model");
+const Stripe = require("stripe");
 
 module.exports.create = (req, res, next) => {
   const task= ({ user, content } = req.body);
@@ -52,5 +54,37 @@ module.exports.update = (req, res, next) => {
 module.exports.delete = (req, res, next) => {
   Task.findByIdAndDelete(req.params.id)
     .then((task) => res.status(202).json(task))
+    .catch(next);
+};
+
+module.exports.checkout = (req, res, next) => {
+  const stripe = new Stripe(process.env.STRIPE_KEY);
+
+  const { hiredTaskId, amount, paymentId } = req.body;
+  Hired.findOne({ task: req.currentTask, target: hiredTaskId })
+    .then((sub) => {
+      if (sub) {
+        res.status(400).json({ message: "already hired" });
+      } else {
+        return stripe.paymentIntents
+          .create({
+            amount: amount * 100,
+            currency: "EUR",
+            description: "Servicio contratado",
+            payment_method: paymentId,
+            confirm: true,
+          })
+          .then((result) => {
+            return Hired.create({
+              user: req.currentUser,
+              targetTask: hiredTaskId,
+            }).then((hired) => {
+              console.log(hired);
+              res.status(201).json({ message: "confirmed!", result });
+            });
+          });
+      }
+    })
+
     .catch(next);
 };

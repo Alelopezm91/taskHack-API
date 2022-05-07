@@ -48,6 +48,13 @@ const taskSchema = new mongoose.Schema(
   }
 );
 
+taskSchema.virtual("hired", {
+  ref: "Hired",
+  localField: "_id",
+  foreignField: "task",
+  justOne: false,
+});
+
 const Task = mongoose.model("Task", taskSchema);
 
 module.exports = Task;

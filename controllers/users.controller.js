@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const User = require("../models/User.model.js");
-const Hired= require("../models/Hired.model")
+const Hired= require("../models/Hired.model");
 const Stripe=require("stripe")
 require("../models/Task.model")
 
@@ -55,8 +55,8 @@ module.exports.checkout = (req, res, next) => {
       } else {
         return stripe.paymentIntents
           .create({
-            amount,
-            currency: "USD",
+            amount: amount*100,
+            currency: "EUR",
             description: "Servicio contratado",
             payment_method: paymentId,
             confirm: true,
